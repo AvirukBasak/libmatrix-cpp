@@ -6,13 +6,10 @@
 int main()
 {
     using namespace std;        // standard namespace
-    using namespace mtx;        // namespace for this library
-
-    // 4x4 unit matrix
-    Matrix<double> im = Matrix<double>::I(4);
+    using namespace Matrix;     // namespace for this library
 
     // 4x4 matrix as C++ DDA
-    double m2arr[4][4] = {
+    int m2arr[4][4] = {
         { 0, 2, 3, 4 },
         { 7, 1, 5, 6 },
         { 6, 5, 2, 7 },
@@ -20,32 +17,51 @@ int main()
     };
 
     // the constructor accepts address to 1st element of the C++ DDA
-    Matrix<double> m2 = Matrix<double>(4, 4, &m2arr[0][0]);
+    matrix<int> m2 = matrix<int>(4, 4, &m2arr[0][0]);
 
-    cout << "\nResult = ";
+    std::cout << "\n>> my matrix:\n";
+    for (int i = 0; i < m2.rows(); i++) {
+        for (int j = 0; j < m2.cols(); j++)
+            std::cout << m2[i][j] << " ";
+        std::cout << "\n";
+    }
+
+    // 4x4 unit matrix
+    matrix<int> im = Matrix::I<int>(4);
+
+    std::cout << "\n>> my unit matrix:\n";
+    for (int i = 0; i < im.rows(); i++) {
+        for (int j = 0; j < im.cols(); j++)
+            std::cout << im[i][j] << " ";
+        std::cout << "\n";
+    }
+
+    cout << "\nequality = ";
     if (m2 == im) cout << "equal\n";
     else cout << "unequal\n";
 
     try {
-        Matrix<double> im = Matrix<double>::I(2);
-        Matrix<double> sum = m2 + im;
-    } catch (mtx::Exception error) {
-        if (error == E_INCMP)
+        std::cout << "\n>> sum:\n";
+        matrix<int> sum = m2 + im;
+        sum.print();
+    } catch (Matrix::Exception ex) {
+        if (ex == Matrix::EX_INCMP)
             cout << "incompatible matrices!\n";
     }
     try {
-        Matrix<double> sum = m2 + im;
-        sum.print();
-    } catch (mtx::Exception error) {
-        if (error == E_INCMP)
+        matrix<int> diff = m2 - im;
+        std::cout << "\n>> difference:\n";
+        diff.print();
+    } catch (Matrix::Exception ex) {
+        if (ex == Matrix::EX_INCMP)
             cout << "incompatible matrices!\n";
     }
 
-    cout << "\ninverse of matrix:\n";
+    cout << "\n>> inverse of my matrix:\n";
     try {
         m2.inverse().print();
-    } catch (mtx::Exception error) {
-        if (error == E_DETR0)
+    } catch (Matrix::Exception ex) {
+        if (ex == Matrix::EX_DETR0)
             cout << "can't invert, determinant = 0!\n";
     }
     return 0;
