@@ -1,7 +1,7 @@
 # Library Details
 Library namespace name: `Matrix`
 
-Library class name: `Matrix`
+Library class name: `matrix`
 
 ## Member variables
 
