@@ -28,7 +28,7 @@ namespace Matrix
     void throwException(Exception ex, const std::string& msg)
     {
     #ifdef DEBUG
-        std::cout << "Matrix::Exception: " << ex << ": " << msg << "\n";
+        std::cout << "Matrix::Exception::" << ex << ": " << msg << "\n";
     #endif
         throw ex;
     }
@@ -82,6 +82,36 @@ namespace Matrix
                 this->mtx_ptr[i] = new type[cols];
                 for (int j = 0; j < this->cols(); j++)
                     this->mtx_ptr[i][j] = 0;
+            }
+            this->refcnt_ptr = new int(1);
+        }
+
+        /**
+         * Create a new matrix object.
+         * @param initialiser list
+         * @throws Matrix::Exception matrix can't have 0 rows - EX_0ROWS
+         * @throws Matrix::Exception matrix can't have 0 columns - EX_0COLS
+         */
+        matrix(std::initializer_list<std::initializer_list<type>> lst)
+        {
+            int rows = lst.size();
+            int cols = lst.begin()->size();
+            if (rows < 1)
+                Matrix::throwException(EX_0ROWS, "matrix can't have 0 rows");
+            if (cols < 1)
+                Matrix::throwException(EX_0COLS, "matrix can't have 0 columns");
+            this->rows_ptr = new int(rows);
+            this->cols_ptr = new int(cols);
+            this->mtx_ptr = new type*[rows];
+            int i = 0;
+            for (const auto& lrow : lst) {
+                this->mtx_ptr[i] = new type[cols];
+                int j = 0;
+                for (const auto& el : lrow) {
+                    this->mtx_ptr[i][j] = el;
+                    j++;
+                }
+                i++;
             }
             this->refcnt_ptr = new int(1);
         }

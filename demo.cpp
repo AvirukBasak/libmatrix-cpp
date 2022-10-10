@@ -8,16 +8,13 @@ int main()
     using namespace std;        // standard namespace
     using namespace Matrix;     // namespace for this library
 
-    // 4x4 matrix as C++ DDA
-    int m2arr[4][4] = {
+    // the constructor accepts address to 1st element of the C++ DDA
+    matrix<int> m2 = {
         { 0, 2, 3, 4 },
         { 7, 1, 5, 6 },
         { 6, 5, 2, 7 },
         { 4, 3, 2, 3 }
     };
-
-    // the constructor accepts address to 1st element of the C++ DDA
-    matrix<int> m2 = matrix<int>(4, 4, &m2arr[0][0]);
 
     std::cout << "\n>> my matrix:\n";
     for (int i = 0; i < m2.rows(); i++) {
