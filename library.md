@@ -58,7 +58,7 @@ matrix(int rows, int cols)
  - `param` 2D initialiser list
  - `throws` Matrix::Exception matrix can't have 0 rows - EX_0ROWS
  - `throws` Matrix::Exception matrix can't have 0 columns - EX_0COLS
-```
+```c++
 matrix(initializer_list<initializer_list<type>> lst)
 ```
 
